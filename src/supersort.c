@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "algorithms.h"
 
 void print_usage_main()
@@ -15,6 +16,12 @@ void print_usage_run()
 {
     printf("usage: supersort run <algorithm>\n\n");
     printf("valid algorithms are: insertion, selection, bubble\n\n");
+}
+
+void print_usage_bench()
+{
+    printf("usage: supersort bench\n\n");
+    printf("applies various sort algorithms on random arrays with different lenghts\n\n");
 }
 
 int run(char *name)
@@ -62,6 +69,23 @@ int run(char *name)
     return 0;
 }
 
+void bench(void (*sort)(int array[], int length))
+{
+    const int STEP = 1000;
+    int array[STEP * 10];
+
+    for (int i = STEP; i <= STEP * 10; i += STEP)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            array[j] = rand();
+        }
+        long int time = clock();
+        sort(array, i);
+        printf("%10d %10.3f ms\n", i, (double)(clock() - time) / (CLOCKS_PER_SEC / 1000));
+    }
+}
+
 int main(int argc, char *argv[])
 {
     if (argc == 1 || strcmp(argv[1], "--help") == 0)
@@ -83,6 +107,26 @@ int main(int argc, char *argv[])
             print_usage_run();
             exit(1);
         }
+    }
+    else if (strcmp(argv[1], "bench") == 0)
+    {
+        if (argc != 2)
+        {
+            print_usage_bench();
+            exit(1);
+        }
+
+        printf("\nBUBBLE SORT\n");
+        printf("%10s %10s\n", "elements", "speed");
+        bench(bubble_sort);
+
+        printf("\nSELECTION SORT\n");
+        printf("%10s %10s\n", "elements", "speed");
+        bench(selection_sort);
+
+        printf("\nINSERTIONS SORT\n");
+        printf("%10s %10s\n", "elements", "speed");
+        bench(insertion_sort);
     }
     else
     {
