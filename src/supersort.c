@@ -71,10 +71,10 @@ int run(char *name)
 
 void bench(void (*sort)(int array[], int length))
 {
-    const int STEP = 1000;
-    int array[STEP * 10];
+    const int step = 1000;
+    int array[step * 10];
 
-    for (int i = STEP; i <= STEP * 10; i += STEP)
+    for (int i = step; i <= step * 10; i += step)
     {
         for (int j = 0; j < i; j++)
         {
