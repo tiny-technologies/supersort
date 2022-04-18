@@ -74,6 +74,7 @@ void bench(void (*sort)(int array[], int length))
     const int step = 1000;
     int array[step * 10];
 
+    printf("%10s %10s\n", "elements", "speed");
     for (int i = step; i <= step * 10; i += step)
     {
         for (int j = 0; j < i; j++)
@@ -117,15 +118,12 @@ int main(int argc, char *argv[])
         }
 
         printf("\nBUBBLE SORT\n");
-        printf("%10s %10s\n", "elements", "speed");
         bench(bubble_sort);
 
         printf("\nSELECTION SORT\n");
-        printf("%10s %10s\n", "elements", "speed");
         bench(selection_sort);
 
         printf("\nINSERTIONS SORT\n");
-        printf("%10s %10s\n", "elements", "speed");
         bench(insertion_sort);
     }
     else
